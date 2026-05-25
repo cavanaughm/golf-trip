@@ -180,6 +180,55 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
 
+/* BEANS */
+.bean-inp{width:30px;padding:2px 0;text-align:center;border:1px solid var(--border2);border-radius:3px;
+  font-size:.82rem;font-weight:600;font-family:inherit;outline:none;background:var(--surf);color:var(--gold)}
+.bean-inp:focus{border-color:var(--gold);background:var(--surf2)}
+.bean-inp-m{width:44px;height:38px;padding:2px 1px;text-align:center;border:1px solid rgba(253,214,99,.4);border-radius:3px;
+  font-size:16px;font-weight:600;font-family:inherit;outline:none;background:rgba(253,214,99,.06);color:var(--gold)}
+.bean-inp-m:focus{border-color:var(--gold);background:rgba(253,214,99,.12)}
+table.sc th.bean-c{background:rgba(253,214,99,.15);color:var(--gold);border-color:rgba(253,214,99,.25);min-width:46px}
+table.sc td.bean-c{background:rgba(253,214,99,.1);color:var(--gold);font-weight:700;border-color:rgba(253,214,99,.25);min-width:46px}
+table.sc tr.bean-hdr-row td{background:rgba(253,214,99,.07);color:var(--gold);font-size:.67rem;font-weight:600;
+  letter-spacing:.04em;border-top:2px solid rgba(253,214,99,.2);padding:5px 4px;text-align:left;padding-left:10px}
+table.sc tr.bean-row td{background:rgba(253,214,99,.03)}
+table.sc tr.bean-row td.lc{background:rgba(253,214,99,.07);color:var(--gold)}
+table.scv tr.bean-hdr-row td{background:rgba(253,214,99,.07);color:var(--gold);font-size:.67rem;font-weight:600;
+  border-top:2px solid rgba(253,214,99,.2);padding:5px 4px}
+table.scv tr.bean-row td{background:rgba(253,214,99,.03)}
+table.scv tr.bean-row td.lc{background:rgba(253,214,99,.07);color:var(--gold);font-size:.72rem}
+table.scv td.bean-c{background:rgba(253,214,99,.1);color:var(--gold);font-weight:700;border-color:rgba(253,214,99,.25);line-height:1.3}
+
+/* MOBILE SCORE POPUP */
+.score-popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:400;align-items:flex-end;justify-content:center}
+.score-popup-overlay.open{display:flex}
+.score-popup-sheet{background:var(--surf);border-radius:16px 16px 0 0;padding:18px 16px 32px;width:100%;
+  max-width:500px;border-top:1px solid var(--border2)}
+.spc-title{font-size:.875rem;color:var(--text2);text-align:center;margin-bottom:14px;font-weight:500}
+.spc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.spc-btn{padding:14px 2px;border:1px solid var(--border);border-radius:8px;font-size:1rem;font-weight:700;
+  font-family:inherit;cursor:pointer;background:var(--surf2);color:var(--text);line-height:1.2;text-align:center;
+  -webkit-tap-highlight-color:transparent;transition:opacity .1s}
+.spc-btn span{display:block;font-size:.62rem;font-weight:400;opacity:.7;margin-top:3px}
+.spc-btn.s-eagle{background:#4a3a00;color:var(--gold);border-color:#6a5a00}
+.spc-btn.s-birdie{background:#3d0f0b;color:var(--red);border-color:#5d2f2b}
+.spc-btn.s-bogey{background:var(--blue-bg);color:var(--blue)}
+.spc-btn.s-double{background:rgba(138,180,248,.22);color:#aecbfa}
+.spc-btn.s-triple{background:#1a2a5a;color:#c5d8ff;border-color:#2a3a7a}
+.spc-btn.cur{outline:2px solid white;outline-offset:1px}
+.spc-clear{width:100%;padding:13px;border:1px solid var(--border2);border-radius:8px;font-size:.875rem;
+  font-family:inherit;cursor:pointer;background:transparent;color:var(--text2)}
+
+/* MOBILE SCORE CELL (tap target, no keyboard) */
+.sc-mob-cell{display:flex;align-items:center;justify-content:center;width:44px;height:38px;
+  border:1px solid var(--border2);border-radius:3px;font-size:.9rem;font-weight:700;font-family:inherit;
+  cursor:pointer;background:var(--surf);color:var(--text);-webkit-tap-highlight-color:transparent}
+.sc-mob-cell.s-eagle{background:#4a3a00;color:var(--gold)}
+.sc-mob-cell.s-birdie{background:#3d0f0b;color:var(--red)}
+.sc-mob-cell.s-bogey{background:var(--blue-bg);color:var(--blue)}
+.sc-mob-cell.s-double{background:rgba(138,180,248,.22);color:#aecbfa}
+.sc-mob-cell.s-triple{background:#1a2a5a;color:#c5d8ff}
+
 /* RESPONSIVE SCORECARD */
 .sc-desktop{display:block}
 .sc-mobile{display:none}
@@ -242,11 +291,22 @@ table.scv td.net-c{background:var(--blue-bg);color:var(--blue);font-weight:700;b
         onkeydown="if(event.key==='Enter')createTrip()">
       <button class="btn btn-blue btn-sm" onclick="createTrip()">Create</button>
     </div>
-    <div style="margin-top:12px;text-align:right">
+    <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+      <button class="btn btn-out btn-sm" onclick="document.getElementById('import-file-input').click()">Import trip…</button>
       <button class="btn btn-out btn-sm" onclick="closeTripModal()">Close</button>
     </div>
   </div>
 </div>
+
+<!-- SCORE POPUP (mobile) -->
+<div class="score-popup-overlay" id="score-popup" onclick="if(event.target===this)closeScorePopup()">
+  <div class="score-popup-sheet">
+    <div class="spc-title" id="spc-title">Enter score</div>
+    <div class="spc-grid" id="spc-grid"></div>
+    <button class="spc-clear" onclick="scorePopupSelect(null)">Clear</button>
+  </div>
+</div>
+<input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImportFile(this)">
 
 <!-- SETUP OVERLAY -->
 <div class="setup-overlay" id="setup-overlay">
@@ -390,7 +450,16 @@ function load(){
   if(!state.activeTripId||!state.trips.find(t=>t.id===state.activeTripId)){
     state.activeTripId=state.trips[0].id;
   }
+  state.trips.forEach(migrateBeans);
   save();
+}
+function migrateBeans(trip){
+  trip.rounds.forEach(r=>{
+    if(!r.beans)r.beans={};
+    r.players.forEach(p=>{
+      if(!r.beans[p.name])r.beans[p.name]=Array(18).fill(null);
+    });
+  });
 }
 
 // ── TRIP MODAL ──
@@ -399,9 +468,14 @@ function openTripModal(){
   document.getElementById('trip-list-items').innerHTML=
     state.trips.map(t=>`<div class="trip-item${t.id===state.activeTripId?' active-trip':''}" onclick="switchTrip('${t.id}')">
       <span>${esc(t.name)}</span>
-      ${state.trips.length>1?`<button class="btn-icon" onclick="event.stopPropagation();deleteTrip('${t.id}')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-      </button>`:''}
+      <div style="display:flex;gap:2px">
+        <button class="btn-icon" title="Export trip" onclick="event.stopPropagation();exportTrip('${t.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+        ${state.trips.length>1?`<button class="btn-icon" title="Delete trip" onclick="event.stopPropagation();deleteTrip('${t.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>`:''}
+      </div>
     </div>`).join('');
 }
 function closeTripModal(){document.getElementById('trip-modal').classList.remove('open')}
@@ -421,6 +495,31 @@ function deleteTrip(id){
   if(!state.trips.length){const nid=uid();state.trips=[{id:nid,name:'New Trip',rounds:[]}];}
   if(!state.trips.find(t=>t.id===state.activeTripId))state.activeTripId=state.trips[0].id;
   save();closeTripModal();renderAll();
+}
+
+function exportTrip(id){
+  const trip=state.trips.find(t=>t.id===id);if(!trip)return;
+  const blob=new Blob([JSON.stringify(trip,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=trip.name.replace(/[^a-z0-9]/gi,'_')+'.json';
+  a.click();URL.revokeObjectURL(url);
+}
+function handleImportFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const trip=JSON.parse(e.target.result);
+      if(!trip.name||!Array.isArray(trip.rounds))throw new Error('Invalid trip file');
+      trip.id=uid();
+      migrateBeans(trip);
+      state.trips.push(trip);state.activeTripId=trip.id;
+      save();closeTripModal();renderAll();
+    }catch(err){alert('Could not import trip: '+err.message);}
+    input.value='';
+  };
+  reader.readAsText(file);
 }
 
 // ── SETUP ──
@@ -500,9 +599,9 @@ function createRound(){
       slope:parseInt(document.getElementById('f-slope').value)||null,
       holes
     },
-    players,scores:{}
+    players,scores:{},beans:{}
   };
-  players.forEach(p=>{round.scores[p.name]=Array(18).fill(null);});
+  players.forEach(p=>{round.scores[p.name]=Array(18).fill(null);round.beans[p.name]=Array(18).fill(null);});
   getTrip().rounds.push(round);
   save();
   expandedRounds.add(round.id);
@@ -591,30 +690,30 @@ function buildScorecardH(r){
   holes.slice(0,9).forEach(h=>{html+=`<th>${h.number}</th>`;});
   html+=`<th class="sep">OUT</th>`;
   holes.slice(9).forEach(h=>{html+=`<th>${h.number}</th>`;});
-  html+=`<th class="sep">IN</th><th class="gross-c">GROSS</th><th class="net-c">NET</th></tr>`;
+  html+=`<th class="sep">IN</th><th class="gross-c">GROSS</th><th class="net-c">NET</th><th class="bean-c">BEANS</th></tr>`;
   html+=`<tr><td class="lc par-r">Par</td><td class="hc par-r">—</td>`;
   holes.slice(0,9).forEach(h=>{html+=`<td class="par-r">${h.par}</td>`;});
   html+=`<td class="sub par-r">${f9p}</td>`;
   holes.slice(9).forEach(h=>{html+=`<td class="par-r">${h.par}</td>`;});
-  html+=`<td class="sub par-r">${b9p}</td><td class="gross-c par-r">${f9p+b9p}</td><td class="net-c par-r">—</td></tr>`;
+  html+=`<td class="sub par-r">${b9p}</td><td class="gross-c par-r">${f9p+b9p}</td><td class="net-c par-r">—</td><td class="bean-c">—</td></tr>`;
   html+=`<tr><td class="lc diff-r">Hole HCP</td><td class="hc diff-r">—</td>`;
   holes.slice(0,9).forEach(h=>{html+=`<td class="diff-r">${h.handicap}</td>`;});
   html+=`<td class="sub"></td>`;
   holes.slice(9).forEach(h=>{html+=`<td class="diff-r">${h.handicap}</td>`;});
-  html+=`<td class="sub"></td><td class="gross-c"></td><td class="net-c"></td></tr>`;
+  html+=`<td class="sub"></td><td class="gross-c"></td><td class="net-c"></td><td class="bean-c"></td></tr>`;
   html+='</thead><tbody>';
   players.forEach((p,pi)=>{
     const sc=r.scores[p.name]||Array(18).fill(null);
     const hcp=p.handicap;
     html+=`<tr><td class="lc">${esc(p.name)}</td>`;
     html+=`<td class="hc"><input type="number" class="hcp-inp" data-ri="${r.id}" data-pi="${pi}"
-      value="${hcp}" min="0" max="54" step="0.1" onchange="onHcp(this)" title="Edit handicap"></td>`;
+      value="${hcp}" min="0" max="54" step="0.1" onchange="onHcp(this)" onfocus="this.select()" title="Edit handicap"></td>`;
     holes.slice(0,9).forEach((h,i)=>{
       const v=sc[i];
       const cls=v!==null&&v!==undefined?scClass(v):'';
       html+=`<td class="${cls}"><input type="number" class="sc-inp" data-ri="${r.id}" data-pi="${pi}" data-hi="${i}"
         value="${v!==null&&v!==undefined?v:''}" placeholder="·" min="-5" max="10"
-        onchange="onSC(this)" oninput="colorCell(this)"></td>`;
+        onchange="onSC(this)" oninput="colorCell(this)" onfocus="this.select()"></td>`;
     });
     const f9=sc.slice(0,9).reduce((s,v)=>s+(v!==null&&v!==undefined?v:0),0);
     const f9has=sc.slice(0,9).some(v=>v!==null&&v!==undefined);
@@ -625,7 +724,7 @@ function buildScorecardH(r){
       const cls=v!==null&&v!==undefined?scClass(v):'';
       html+=`<td class="${cls}"><input type="number" class="sc-inp" data-ri="${r.id}" data-pi="${pi}" data-hi="${hi}"
         value="${v!==null&&v!==undefined?v:''}" placeholder="·" min="-5" max="10"
-        onchange="onSC(this)" oninput="colorCell(this)"></td>`;
+        onchange="onSC(this)" oninput="colorCell(this)" onfocus="this.select()"></td>`;
     });
     const b9=sc.slice(9).reduce((s,v)=>s+(v!==null&&v!==undefined?v:0),0);
     const b9has=sc.slice(9).some(v=>v!==null&&v!==undefined);
@@ -635,9 +734,39 @@ function buildScorecardH(r){
     const grossSt=f9st+b9st;
     const net=calcNetH(sc,hcp,holes);
     const netSt=grossSt-gross+net;
+    const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+    const totB=bn.reduce((s,v)=>s+(v||0),0);
+    const bHas=bn.some(v=>v!==null);
     html+=`<td class="sub" data-cell="b9-${r.id}-${pi}">${b9has?`${b9st}<span class="sub-score">${fmtVP(b9)}</span>`:'·'}</td>`;
     html+=`<td class="gross-c" data-cell="gr-${r.id}-${pi}">${totHas?`${grossSt}<span class="sub-score">${fmtVP(gross)}</span>`:'·'}</td>`;
-    html+=`<td class="net-c" data-cell="nt-${r.id}-${pi}">${totHas?`${netSt}<span class="sub-score">${fmtVP(net)}</span>`:'·'}</td></tr>`;
+    html+=`<td class="net-c" data-cell="nt-${r.id}-${pi}">${totHas?`${netSt}<span class="sub-score">${fmtVP(net)}</span>`:'·'}</td>`;
+    html+=`<td class="bean-c" data-cell="bt-${r.id}-${pi}">${bHas?totB:'·'}</td></tr>`;
+  });
+  // Bean rows
+  html+=`<tr class="bean-hdr-row"><td colspan="${2+holes.length+4}">🫘 Beans — Bingo · Bango · Bongo</td></tr>`;
+  players.forEach((p,pi)=>{
+    const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+    html+=`<tr class="bean-row"><td class="lc">${esc(p.name)}</td><td class="hc" style="color:var(--gold);font-size:.72rem">Beans</td>`;
+    holes.slice(0,9).forEach((h,i)=>{
+      const v=bn[i];
+      html+=`<td><input type="number" class="bean-inp" data-ri="${r.id}" data-pi="${pi}" data-hi="${i}"
+        value="${v!==null?v:''}" min="0" max="3" placeholder="·"
+        onchange="onBean(this)" onfocus="this.select()"></td>`;
+    });
+    const f9b=bn.slice(0,9).reduce((s,v)=>s+(v||0),0);
+    const f9bhas=bn.slice(0,9).some(v=>v!==null);
+    html+=`<td class="sub" data-cell="bf9-${r.id}-${pi}">${f9bhas?f9b:'·'}</td>`;
+    holes.slice(9).forEach((h,i)=>{
+      const hi=i+9;const v=bn[hi];
+      html+=`<td><input type="number" class="bean-inp" data-ri="${r.id}" data-pi="${pi}" data-hi="${hi}"
+        value="${v!==null?v:''}" min="0" max="3" placeholder="·"
+        onchange="onBean(this)" onfocus="this.select()"></td>`;
+    });
+    const b9b=bn.slice(9).reduce((s,v)=>s+(v||0),0);
+    const b9bhas=bn.slice(9).some(v=>v!==null);
+    const totB=f9b+b9b;const bHas=f9bhas||b9bhas;
+    html+=`<td class="sub" data-cell="bb9-${r.id}-${pi}">${b9bhas?b9b:'·'}</td>`;
+    html+=`<td class="bean-c" colspan="2" data-cell="bt-${r.id}-${pi}">${bHas?totB:'·'}</td></tr>`;
   });
   html+='</tbody></table>';
   return html;
@@ -666,9 +795,8 @@ function buildScorecardV(r){
         const sc=r.scores[p.name]||Array(18).fill(null);
         const v=sc[hi];
         const cls=v!==null&&v!==undefined?scClass(v):'';
-        html+=`<td class="${cls}"><input type="number" class="sc-inp sc-inp-m" data-ri="${r.id}" data-pi="${pi}" data-hi="${hi}"
-          value="${v!==null&&v!==undefined?v:''}" placeholder="·" min="-5" max="10"
-          onchange="onSC(this)" oninput="colorCell(this)"></td>`;
+        const display=v!==null&&v!==undefined?(v===0?'E':v>0?'+'+v:v):'·';
+        html+=`<td><div class="sc-mob-cell ${cls}" data-cell-mob="${r.id}-${pi}-${hi}" onclick="openScorePopup('${r.id}',${pi},${hi})">${display}</div></td>`;
       });
       html+='</tr>';
     });
@@ -705,6 +833,53 @@ function buildScorecardV(r){
   buildSubRow('IN','sub',b9p,'b9');
   buildSubRow('GROSS','gross-c',f9p+b9p,'gr');
   buildSubRow('NET','net-c','—','nt');
+  // Bean rows
+  html+=`<tr class="bean-hdr-row"><td class="lc" style="font-size:.67rem">🫘 Beans</td><td colspan="${players.length+2}"></td></tr>`;
+  holes.slice(0,9).forEach((h,i)=>{
+    html+=`<tr class="bean-row"><td class="lc">${h.number}</td><td class="par-r" style="color:var(--gold)">${h.par}</td><td class="diff-r">${h.handicap}</td>`;
+    players.forEach((p,pi)=>{
+      const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+      const v=bn[i];
+      html+=`<td><input type="number" class="bean-inp-m" data-ri="${r.id}" data-pi="${pi}" data-hi="${i}"
+        value="${v!==null?v:''}" min="0" max="3" placeholder="·" onchange="onBean(this)"></td>`;
+    });
+    html+='</tr>';
+  });
+  html+=`<tr class="bean-row"><td class="lc" style="font-size:.72rem;font-weight:700">OUT</td><td></td><td></td>`;
+  players.forEach((p,pi)=>{
+    const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+    const f9b=bn.slice(0,9).reduce((s,v)=>s+(v||0),0);
+    const f9has=bn.slice(0,9).some(v=>v!==null);
+    html+=`<td class="sub" data-cell="bf9-${r.id}-${pi}">${f9has?f9b:'·'}</td>`;
+  });
+  html+='</tr>';
+  holes.slice(9).forEach((h,i)=>{
+    const hi=i+9;
+    html+=`<tr class="bean-row"><td class="lc">${h.number}</td><td class="par-r" style="color:var(--gold)">${h.par}</td><td class="diff-r">${h.handicap}</td>`;
+    players.forEach((p,pi)=>{
+      const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+      const v=bn[hi];
+      html+=`<td><input type="number" class="bean-inp-m" data-ri="${r.id}" data-pi="${pi}" data-hi="${hi}"
+        value="${v!==null?v:''}" min="0" max="3" placeholder="·" onchange="onBean(this)"></td>`;
+    });
+    html+='</tr>';
+  });
+  html+=`<tr class="bean-row"><td class="lc" style="font-size:.72rem;font-weight:700">IN</td><td></td><td></td>`;
+  players.forEach((p,pi)=>{
+    const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+    const b9b=bn.slice(9).reduce((s,v)=>s+(v||0),0);
+    const b9has=bn.slice(9).some(v=>v!==null);
+    html+=`<td class="sub" data-cell="bb9-${r.id}-${pi}">${b9has?b9b:'·'}</td>`;
+  });
+  html+='</tr>';
+  html+=`<tr class="bean-row"><td class="lc bean-c" style="font-size:.72rem;font-weight:700">BEANS</td><td></td><td></td>`;
+  players.forEach((p,pi)=>{
+    const bn=r.beans&&r.beans[p.name]?r.beans[p.name]:Array(18).fill(null);
+    const totB=bn.reduce((s,v)=>s+(v||0),0);
+    const bHas=bn.some(v=>v!==null);
+    html+=`<td class="bean-c" data-cell="bt-${r.id}-${pi}">${bHas?totB:'·'}</td>`;
+  });
+  html+='</tr>';
   html+='</tbody></table>';
   return html;
 }
@@ -857,6 +1032,39 @@ function renderLeaderboard(){
     }
   }
 
+  // Bean standings
+  const allBeanNames=[...new Set(trip.rounds.flatMap(r=>r.players.map(p=>p.name)))];
+  const beanPlayers=allBeanNames.map(name=>{
+    let total=0,played=0;
+    const byRound=[];
+    trip.rounds.forEach(r=>{
+      const p=r.players.find(x=>x.name===name);
+      if(!p||!r.beans||!r.beans[name])return;
+      const bn=r.beans[name];
+      if(!bn.some(v=>v!==null))return;
+      const t=bn.reduce((s,v)=>s+(v||0),0);
+      total+=t;played++;
+      byRound.push({rid:r.id,beans:t});
+    });
+    return{name,total,played,byRound};
+  }).filter(p=>p.played>0).sort((a,b)=>b.total-a.total);
+
+  if(beanPlayers.length){
+    html+=`<div class="lb-card"><h3>Bean Standings — Bingo · Bango · Bongo</h3>`;
+    html+=`<table class="lbt"><thead><tr><th>#</th><th>Player</th><th>Total Beans</th></tr></thead><tbody>`;
+    beanPlayers.forEach((p,i)=>{
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1;
+      html+=`<tr><td>${medal}</td><td>${esc(p.name)}</td><td style="color:var(--gold);font-weight:600">🫘 ${p.total}</td></tr>`;
+    });
+    html+='</tbody></table></div>';
+    const bc=buildBeanChart(trip,beanPlayers);
+    if(bc){
+      html+=`<div class="chart-wrap">
+        <div class="chart-hdr"><h3>Hole-by-Hole Bean Count</h3><div class="chart-legend">${bc.legend}</div></div>
+        ${bc.svg}</div>`;
+    }
+  }
+
   el.innerHTML=html;
 }
 
@@ -934,6 +1142,50 @@ function buildLineChart(trip,players,useNet){
   return{svg,legend};
 }
 
+function buildBeanChart(trip,beanPlayers){
+  const W=760,H=200,PL=46,PR=14,PT=14,PB=32;
+  const IW=W-PL-PR,IH=H-PT-PB;
+  const colors=['#fdd663','#81c995','#8ab4f8','#f28b82','#c5d8ff','#ffb74d'];
+  const totalHoles=trip.rounds.length*18;
+  const pdata=beanPlayers.map((p,ci)=>{
+    let cum=0;const pts=[{x:0,y:0}];let holeIdx=0;
+    trip.rounds.forEach(r=>{
+      const pl=r.players.find(x=>x.name===p.name);
+      const bn=(pl&&r.beans&&r.beans[p.name])?r.beans[p.name]:Array(18).fill(null);
+      r.course.holes.forEach((_,i)=>{
+        holeIdx++;
+        const v=bn[i];
+        if(v===null||v===undefined){pts.push({x:holeIdx,y:null});return;}
+        cum+=v;pts.push({x:holeIdx,y:cum});
+      });
+    });
+    return{name:p.name,pts,color:colors[ci%colors.length]};
+  });
+  const allY=pdata.flatMap(d=>d.pts.map(p=>p.y).filter(v=>v!==null));
+  if(!allY.length)return null;
+  const maxY=Math.max(1,...allY);
+  const xS=h=>PL+(h/totalHoles)*IW;
+  const yS=y=>PT+((maxY-y)/maxY)*IH;
+  const legend=pdata.map(d=>`<div class="leg-item"><div style="width:18px;height:3px;border-radius:2px;background:${d.color}"></div><span style="color:${d.color}">${esc(d.name)}</span></div>`).join('');
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">`;
+  svg+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+IH}" stroke="#5f6368" stroke-width="1.5"/>`;
+  svg+=`<line x1="${PL}" y1="${yS(0)}" x2="${PL+IW}" y2="${yS(0)}" stroke="#3c4043" stroke-width="1"/>`;
+  trip.rounds.forEach((r,i)=>{
+    if(i>0){const x=xS(i*18);svg+=`<line x1="${x}" y1="${PT}" x2="${x}" y2="${PT+IH}" stroke="#3c4043" stroke-width="1" stroke-dasharray="3,3"/>`;}
+    svg+=`<text x="${xS(i*18+9)}" y="${H-8}" text-anchor="middle" font-size="9" fill="#5f6368">${esc(r.course.name)}</text>`;
+  });
+  pdata.forEach(d=>{
+    const valid=d.pts.filter(p=>p.y!==null);
+    if(valid.length<2)return;
+    svg+=`<polyline points="${valid.map(p=>`${xS(p.x).toFixed(1)},${yS(p.y).toFixed(1)}`).join(' ')}" fill="none" stroke="${d.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    valid.forEach(p=>{svg+=`<circle cx="${xS(p.x).toFixed(1)}" cy="${yS(p.y).toFixed(1)}" r="2.5" fill="${d.color}"/>`;});
+  });
+  svg+=`<text x="${PL-5}" y="${PT+4}" text-anchor="end" font-size="9" fill="#9aa0a6">${maxY}</text>`;
+  svg+=`<text x="${PL-5}" y="${yS(0)+4}" text-anchor="end" font-size="9" fill="#9aa0a6">0</text>`;
+  svg+='</svg>';
+  return{svg,legend};
+}
+
 function fmtVP(v){return v===0?'E':v>0?'+'+v:String(v);}
 function fmtVPhtml(v){
   if(v===0)return`<span class="vs-e">E</span>`;
@@ -943,6 +1195,76 @@ function fmtVPhtml(v){
 function fmtDate(d){return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
 function today(){return new Date().toISOString().split('T')[0];}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── SCORE POPUP ──
+let _popupTarget=null;
+const _scoreLabels={'-5':'Condor','-4':'Ostrich','-3':'Albatross','-2':'Eagle','-1':'Birdie','0':'Par','1':'Bogey','2':'Double','3':'Triple','4':'+4','5':'+5','6':'+6'};
+function openScorePopup(rid,pi,hi){
+  const r=state.trips.flatMap(t=>t.rounds).find(x=>x.id===rid);if(!r)return;
+  _popupTarget={rid,pi,hi};
+  const h=r.course.holes[hi];
+  const par=h?h.par:4;
+  const cur=(r.scores[r.players[pi]?.name]||[])[hi];
+  document.getElementById('spc-title').textContent=`Hole ${hi+1} — Par ${par}`;
+  const scores=[-5,-4,-3,-2,-1,0,1,2,3,4,5,6];
+  document.getElementById('spc-grid').innerHTML=scores.map(s=>{
+    const cls=scClass(s);
+    const display=s===0?'E':s>0?'+'+s:s;
+    return`<button class="spc-btn ${cls}${s===cur?' cur':''}" onclick="scorePopupSelect(${s})">${display}<span>${_scoreLabels[s]}</span></button>`;
+  }).join('');
+  document.getElementById('score-popup').classList.add('open');
+}
+function closeScorePopup(){
+  document.getElementById('score-popup').classList.remove('open');
+  _popupTarget=null;
+}
+function scorePopupSelect(v){
+  if(!_popupTarget){closeScorePopup();return;}
+  const{rid,pi,hi}=_popupTarget;
+  const r=state.trips.flatMap(t=>t.rounds).find(x=>x.id===rid);
+  if(!r){closeScorePopup();return;}
+  const p=r.players[pi];if(!p){closeScorePopup();return;}
+  if(!r.scores[p.name])r.scores[p.name]=Array(18).fill(null);
+  r.scores[p.name][hi]=v;
+  // sync desktop inputs
+  document.querySelectorAll(`.sc-inp[data-ri="${rid}"][data-pi="${pi}"][data-hi="${hi}"]`).forEach(el=>{
+    el.value=v!==null?v:'';colorCell(el);
+  });
+  // sync mobile cells
+  document.querySelectorAll(`[data-cell-mob="${rid}-${pi}-${hi}"]`).forEach(el=>{
+    const cls=v!==null?scClass(v):'';
+    el.className=`sc-mob-cell ${cls}`;
+    el.textContent=v!==null?(v===0?'E':v>0?'+'+v:v):'·';
+  });
+  save();refreshTotals(r,pi);renderLeaderboard();
+  closeScorePopup();
+}
+
+// ── BEANS ──
+function onBean(inp){
+  const r=state.trips.flatMap(t=>t.rounds).find(x=>x.id===inp.dataset.ri);if(!r)return;
+  const pi=+inp.dataset.pi,hi=+inp.dataset.hi;
+  const p=r.players[pi];if(!p)return;
+  if(!r.beans)r.beans={};
+  if(!r.beans[p.name])r.beans[p.name]=Array(18).fill(null);
+  r.beans[p.name][hi]=inp.value===''?null:Math.min(3,Math.max(0,parseInt(inp.value)));
+  document.querySelectorAll(`.bean-inp[data-ri="${inp.dataset.ri}"][data-pi="${pi}"][data-hi="${hi}"]`).forEach(el=>{
+    if(el!==inp)el.value=inp.value;
+  });
+  save();refreshBeanTotals(r,pi);renderLeaderboard();
+}
+function refreshBeanTotals(r,pi){
+  const p=r.players[pi];if(!p||!r.beans||!r.beans[p.name])return;
+  const bn=r.beans[p.name];
+  const f9b=bn.slice(0,9).reduce((s,v)=>s+(v||0),0);
+  const b9b=bn.slice(9).reduce((s,v)=>s+(v||0),0);
+  const f9has=bn.slice(0,9).some(v=>v!==null);
+  const b9has=bn.slice(9).some(v=>v!==null);
+  const set=(key,v)=>{document.querySelectorAll(`[data-cell="${key}"]`).forEach(el=>el.textContent=v);};
+  set(`bf9-${r.id}-${pi}`,f9has?f9b:'·');
+  set(`bb9-${r.id}-${pi}`,b9has?b9b:'·');
+  set(`bt-${r.id}-${pi}`,f9has||b9has?f9b+b9b:'·');
+}
 
 document.addEventListener('keydown',e=>{
   if(!e.target.classList.contains('sc-inp'))return;
